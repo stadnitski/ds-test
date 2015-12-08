@@ -4,3 +4,5 @@ code                    app/code/local/DigitalSession/Mbdt/
 adminhtml/layout/*      app/design/adminhtml/default/default/layout/
 adminhtml/template/*    app/design/adminhtml/default/default/template/digitalsession/mbdt/
 DigitalSession_Mbdt.xml app/etc/modules/DigitalSession_Mbdt.xml
+
+@shell rm -rf var/cache/
