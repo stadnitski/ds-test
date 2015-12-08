@@ -1,0 +1,85 @@
+<script type="text/javascript">
+    var Mbdt = new function() {
+        this.itemsIds = [];
+        this.init = function() {
+            var items = $$('dl.item-options');
+            if( !items ) { return; }
+
+            for(i in items) {
+                if(items[i].parentNode) {
+                    var itemBlock = Element.up(items[i], '.item-container');
+                    if( !itemBlock && itemBlock.id ) { continue; }
+                    var re = /order_item_(\d+)/i;
+                    var matches = itemBlock.id.match(re);
+                    if( !matches[1] ) { continue; }
+
+                    var _inArray = false;
+                    for( i in this.itemsIds ) {
+                        if( this.itemsIds[i] == matches[1] ) {
+                            _inArray = true;
+                        }
+                    }
+
+                    if( !_inArray ) this.itemsIds.push(matches[1]);
+                } else {
+                    continue;
+                }
+                i++;
+            }
+
+            this.appendEditLinks();
+        };
+
+        this.appendEditLinks = function() {
+            for(i=0; i<this.itemsIds.length; i++) {
+                $('order_item_' + this.itemsIds[i]).insert({
+                    bottom: '<a href="<?php echo Mage::helper("adminhtml")->getUrl('adminhtml/mbdt/popup')
+                    ?>item_id/' + this
+                        .itemsIds[i]+ '" onClick="return Mbdt.openPopup(this.href)"><?php echo $this->__('Edit Options');
+                        ?></a>'
+                });
+            }
+        };
+
+        this.openPopup = function(url) {
+            if ($('options_edit_window') && typeof(Windows) != 'undefined') {
+                Windows.focus('options_edit_window');
+                return;
+            }
+
+            var dialogWindow = Dialog.alert(null, {
+                closable: false,
+                className: 'magento',
+                top: 50,
+                width: 600,
+                height: 400,
+                zIndex: 1000,
+                showProgress: true,
+                id: 'options_edit_window',
+                url: url
+            });
+
+            return false;
+        };
+
+        this.closePopup = function() {
+            Windows.close('options_edit_window');
+        };
+
+        this.refreshItemsList = function() {
+            var url = '<?php echo Mage::helper("adminhtml")->getUrl('adminhtml/mbdt/getItemsList', array('_current' => true))?>';
+            var gridArray = $$('#sales_order_view_tabs_order_info_content div.np');
+            if( gridArray.length ) {
+                new Ajax.Updater(gridArray[0], url, {
+                    evalScripts:true,
+                    onComplete: function() {
+                        Mbdt.closePopup();
+                        Mbdt.init();
+                    }
+                });
+            }
+        }
+    }
+
+    document.onload = Mbdt.init();
+</script>

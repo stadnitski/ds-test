@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <DigitalSession_Mbdt>
+            <active>true</active>
+            <codePool>local</codePool>
+        </DigitalSession_Mbdt>
+    </modules>
+</config>

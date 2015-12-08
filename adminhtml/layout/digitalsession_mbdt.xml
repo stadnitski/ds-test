@@ -1,0 +1,34 @@
+<layout>
+    <adminhtml_sales_order_view>
+        <reference name="head">
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+            <action method="addCss"><name>lib/prototype/windows/themes/magento.css</name></action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="digitalsession.mbdt.js" template="digitalsession/mbdt/sales/order/view.phtml"/>
+        </reference>
+    </adminhtml_sales_order_view>
+    <adminhtml_mbdt_popup>
+        <reference name="root">
+            <action method="setTemplate"><template>digitalsession/mbdt/popup.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="digitalsession_mbdt/adminhtml_sales_order_item_edit_form" name="digitalsession.mbdt.item.edit">
+                <block type="digitalsession_mbdt/adminhtml_sales_order_item_edit_form_options" name="product.info.options" as="product_options" template="catalog/product/view/options.phtml">
+                    <action method="addOptionRenderer"><type>text</type><block>digitalsession_mbdt/adminhtml_sales_order_item_edit_form_renderer_text</block><template>digitalsession/mbdt/sales/order/item/option/renderer/text.phtml</template></action>
+                    <action method="addOptionRenderer"><type>select</type><block>digitalsession_mbdt/adminhtml_sales_order_item_edit_form_renderer_select</block><template>digitalsession/mbdt/sales/order/item/option/renderer/select.phtml</template></action>
+                    <action method="addOptionRenderer"><type>date</type><block>digitalsession_mbdt/adminhtml_sales_order_item_edit_form_renderer_date</block><template>digitalsession/mbdt/sales/order/item/option/renderer/date.phtml</template></action>
+                </block>
+            </block>
+            <block type="digitalsession_mbdt/adminhtml_sales_order_item_edit_form_footer" name="digitalsession.mbdt.item.buttons" template="digitalsession/mbdt/sales/order/item/edit/form/footer.phtml"/>
+        </reference>
+    </adminhtml_mbdt_popup>
+    <adminhtml_mbdt_success>
+        <reference name="root">
+            <action method="setTemplate"><template>digitalsession/mbdt/popup.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="digitalsession.mbdt.success" template="digitalsession/mbdt/sales/order/item/edit/success.phtml"/>
+        </reference>
+    </adminhtml_mbdt_success>
+</layout>
